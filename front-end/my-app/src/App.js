@@ -28,6 +28,15 @@ function App() {
         Welcome to Newsference, a site dedicated to analyzing and understanding our news and business cycles. Search any topic below
         and get detailed metrics about how it is being covered.
       </h2>
+
+      <div className="search-bar-container">
+          <input 
+            type="text" 
+            className="search-bar" 
+            placeholder="Search a Topic" 
+          />
+        </div>
+
         
        
       </header>

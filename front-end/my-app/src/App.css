@@ -54,6 +54,13 @@
   align-items: center;
 }
 
+.search-bar{
+  margin-top:75px;
+  width: 400px;
+  padding:12px;
+  border-radius: 10px;
+}
+
 .App-link {
   color: #61dafb;
 }
