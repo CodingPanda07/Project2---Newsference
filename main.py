@@ -3,6 +3,7 @@ import requests
 from openai import OpenAI
 from newsapi import NewsApiClient
 from newspaper import Article
+import time
 
 
 newsapi = NewsApiClient(api_key='9f63f43bd5284070841dc0c5a02007e9')
@@ -16,7 +17,8 @@ def fetch_articles(topic) -> list[Any]:
     topic - user input, topic of articles to parse
     '''
     # url_list = []
-    articles = newsapi.get_everything(q=topic, language='en', sort_by="popularity")
+    response = newsapi.get_everything(q=topic, language='en', sort_by="popularity")
+    articles = response["articles"]
     # for article in articles['articles']:
     #     url_list.append(article['url'])
     return articles
@@ -85,13 +87,14 @@ def main():
     # print("\nRight Articles Summary:")
     # print(right_summary)
 
-    articles = fetch_articles("DC Plane Crash")[:5]
+    articles = fetch_articles("DC Plane Crash")[:1]
     for article in articles:
         # print(texts)
         print(article["description"])
         content = url_to_text(article["url"])
-        print(determine_political_leaning(content))
-     
+        print(content)
+        # print(determine_political_leaning(content))
+        time.sleep(5)
 
 
 if __name__ == "__main__":
