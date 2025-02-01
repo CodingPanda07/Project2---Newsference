@@ -1,14 +1,42 @@
-from typing import Any
+from typing import Any, Optional
 import requests
 from openai import OpenAI
 from newsapi import NewsApiClient
 from newspaper import Article
 import time
-
+from enum import Enum
 
 newsapi = NewsApiClient(api_key='9f63f43bd5284070841dc0c5a02007e9')
 openai_api_key = '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'
 client = OpenAI(api_key = openai_api_key)
+
+class Alignment(Enum):
+    Left = 0
+    Right = 2
+    Center = 1
+
+    @classmethod
+    def from_string(cls, value: str) -> Optional['Alignment']:
+        # Mapping of strings to enum members
+        string_map = {
+            "left": cls.Left,
+            "right": cls.Right,
+            "center": cls.Center
+        }
+
+        try:
+            return string_map[value.lower()]
+        except KeyError:
+            return None
+
+# # Example usage
+# print(Alignment.Left.value)        # Output: 0
+# print(Alignment.Right.value)       # Output: 2
+# print(Alignment.Center.value)      # Output: 1
+#
+# print(Alignment.from_string("left"))    # Output: Alignment.Left (with value 0)
+# print(Alignment.from_string("RIGHT"))   # Output: Alignment.Right (with value 2)
+# print(Alignment.from_string("invalid")) # Output: None
 
 def fetch_articles(topic) -> list[Any]:
     '''
@@ -32,7 +60,7 @@ def url_to_text(url: str) -> str:
     article.parse()
     return article.text
 
-def determine_political_leaning(article: str) -> str:
+def determine_political_leaning(article: str) -> Alignment:
     '''
     API call to ChatGPT, give political rating
     '''
@@ -51,7 +79,7 @@ def determine_political_leaning(article: str) -> str:
             }
         ],
     )
-    return (response.choices[0].message)
+    return Alignment.from_string(response.choices[0].message.content)
 
 def summarize_articles(urls):
     # Hypothetical API call to GeminiAPI for summarization
@@ -87,14 +115,20 @@ def main():
     # print("\nRight Articles Summary:")
     # print(right_summary)
 
-    articles = fetch_articles("DC Plane Crash")[:1]
+    articles = fetch_articles("elon musk salute at inauguration")[:5]
+    grouped = [[], [], []]
     for article in articles:
         # print(texts)
-        print(article["description"])
+        description = article["description"]
         content = url_to_text(article["url"])
-        print(content)
-        # print(determine_political_leaning(content))
-        time.sleep(5)
+        print(description)
+        # print(content)
+        leaning = (determine_political_leaning(content))
+        print(leaning)
+        grouped[leaning.value].append(description)
+        time.sleep(10)
+
+    print(grouped)
 
 
 if __name__ == "__main__":
