@@ -25,17 +25,33 @@
   color: white;
 }
 
+.App-header h2{
+  margin-top: -5px;
+  font-size: 18px;
+  word-wrap:break-word;
+  word-break:break-word;
+  max-width: 35%;
+}
+
 .header-image {
   display: flex;
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 230px;   
+  width: 270px;   
   height: 230px;  
 }
 
 .header-image:nth-child(2) {
   left: 230px; 
+}
+
+.images-container-right{
+  position: absolute; 
+  top: 0px;
+  right: 500px;
+  display: flex;
+  align-items: center;
 }
 
 .App-link {
