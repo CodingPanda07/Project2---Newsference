@@ -7,7 +7,7 @@ function App() {
       <header className="App-header">
         
       <h1>
-        Newsference
+      📰 Newsference 📻
       </h1>
         
        
