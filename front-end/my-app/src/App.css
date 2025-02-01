@@ -14,7 +14,7 @@
 }
 
 .App-header {
-  background: linear-gradient(to bottom, #000000 0%, #3f3e3e 100%);
+  background: linear-gradient(to bottom, #000000 0%, #808080 100%);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -23,6 +23,19 @@
   font-size: 20px;
   font-family: 'Noto-sans', sans-serif;
   color: white;
+}
+
+.header-image {
+  display: flex;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 230px;   
+  height: 230px;  
+}
+
+.header-image:nth-child(2) {
+  left: 230px; 
 }
 
 .App-link {
