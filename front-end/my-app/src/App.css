@@ -61,6 +61,12 @@
   border-radius: 10px;
 }
 
+.enter-button{
+  margin-left: 10px;
+  width:45x;
+  padding: 6px;
+}
+
 .App-link {
   color: #61dafb;
 }

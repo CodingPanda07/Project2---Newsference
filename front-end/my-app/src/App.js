@@ -35,8 +35,10 @@ function App() {
             className="search-bar" 
             placeholder="Search a Topic" 
           />
+            <button className="enter-button">Enter</button> {}
         </div>
 
+       
         
        
       </header>
