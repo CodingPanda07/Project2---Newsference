@@ -69,6 +69,11 @@ function App() {
           </div>
         )}
         
+        {activeFilter && (
+          <div className="summary-box">
+            <p>Summary</p>
+          </div>
+        )}
        
       </header>
     </div>

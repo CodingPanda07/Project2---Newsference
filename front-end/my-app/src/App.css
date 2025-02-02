@@ -82,6 +82,16 @@
 
 .filter-button.active{
   background-color: #d3d3d3;
+  border:2px solid black;
+}
+
+.summary-box{
+  width:85%;
+  height:700px;
+  border:5px solid black;
+  text-align:left;
+  padding-left:30px;
+  font-size: 27px;
 }
 
 .App-link {
