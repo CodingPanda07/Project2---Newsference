@@ -13,6 +13,13 @@ function App() {
     setShowFilters(true); 
   };
 
+  const [activeFilter, setActiveFilter] = useState(null);
+
+  const handleFilterClick = (filter) => {
+    setActiveFilter(filter);
+  };
+
+
 
   return (
     <div className="App">
@@ -48,9 +55,17 @@ function App() {
 
         {showFilters && (
           <div className="filter-buttons">
-            <button className="filter-button left">Left</button>
-            <button className="filter-button center">Center</button>
-            <button className="filter-button right">Right</button>
+            <button 
+            className={`filter-button left ${activeFilter === 'left' ? 'active' : ''}`} 
+            onClick={() => handleFilterClick('left')}>
+              Left </button> 
+            <button 
+            className={`filter-button center ${activeFilter === 'center' ? 'active' : ''}`} 
+            onClick={() => handleFilterClick('center')}
+            >Center</button>
+            <button className={`filter-button right ${activeFilter === 'right' ? 'active' : ''}`} 
+              onClick={() => handleFilterClick('right')}
+              >Right</button>
           </div>
         )}
         

@@ -76,6 +76,14 @@
   width:100px;
 }
 
+.filter-button:hover{
+  background-color: #d3d3d3;
+}
+
+.filter-button.active{
+  background-color: #d3d3d3;
+}
+
 .App-link {
   color: #61dafb;
 }
