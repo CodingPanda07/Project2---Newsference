@@ -173,7 +173,7 @@ def main():
     # print(right_summary)
 
     event = "elon musk salute at inauguration"
-    articles = fetch_articles(event)[:50]
+    articles = fetch_articles(event)[:5]
     grouped = [[], [], []]
     for article in articles:
         # print(texts)
