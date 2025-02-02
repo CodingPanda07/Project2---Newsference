@@ -1,0 +1,72 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>News Analysis</title>
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    <script src="https://unpkg.com/htmx-ext-sse@2.2.2/sse.js"></script>
+    <style>
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress {
+            width: 0%;
+            height: 100%;
+            background-color: #4CAF50;
+            transition: width 0.5s ease-in-out;
+        }
+        .result-section {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>News Analysis</h1>
+        
+        <!--<input type="text" id="eventInput" placeholder="Enter event keyword">-->
+        <!--<button hx-get="/process/{eventValue}"-->
+        <!--        hx-trigger="click"-->
+        <!--        hx-swap="none"-->
+        <!--        hx-vals='js:{eventValue: document.getElementById("eventInput").value}'-->
+        <!--        hx-sse="connect">-->
+        <!--    Analyze News-->
+        <!--</button>-->
+        <form id="analysisForm">
+            <input type="text" name="content" id="content" required>
+            <button type="button" onclick="showAnalysis()">Analyze</button>
+        </form>
+
+        <div id="sseContainer"
+             hx-ext="sse" style="display: none;"
+             sse-close="close">
+        </div>
+    </div>
+
+    <script>
+        document.body.addEventListener('htmx:sseBeforeMessage', function (e) {
+            console.log(e)
+        })
+
+        function showAnalysis() {
+            const content = document.getElementById('content').value;
+            const sseContainer = document.getElementById('sseContainer');
+            
+            // Show the container and set the SSE connection URL
+            sseContainer.style.display = 'block';
+            sseContainer.setAttribute('sse-swap', content);
+            sseContainer.setAttribute('sse-connect', `/process/${content}`);
+            
+            // Trigger the SSE connection
+            htmx.process(sseContainer);
+        }
+    </script>
+</body>
+</html>
