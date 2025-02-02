@@ -91,7 +91,50 @@
   border:5px solid black;
   text-align:left;
   padding-left:30px;
+  position:relative;
   font-size: 27px;
+  display:flex;
+  flex-direction: column;
+  align-items:flex-start;
+  padding-bottom:20px;
+}
+
+.summary-box .summary{
+  position:absolute;
+  top:2%;
+}
+
+.summary-box .summary-text{
+  position:absolute;
+  top:8%;
+  font-size:16px;
+  max-height:120px;
+  overflow-y: auto; 
+  padding-right:10px;
+}
+
+.summary-box .line{
+  position: absolute;
+  top:25%;
+  height:5px;
+  left:0;
+  width:100%;
+  background-color:black;
+  padding-left:-30px;
+}
+
+.summary-box .articles{
+  position:absolute;
+  top:27%;
+}
+
+.summary-box .article-text{
+  position:absolute;
+  top:37%;
+  font-size:20px;
+  max-height:440px;
+  overflow-y: auto; 
+  padding-right:10px;
 }
 
 .App-link {

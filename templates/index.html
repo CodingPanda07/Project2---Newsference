@@ -47,36 +47,128 @@
 				</form>
 			</div>
 
-        	<div class="tab filter-buttons">
-				<button class="tablinks filter-button left"
-					    onClick="handleFilter(event, 'left')">
-					Left
-				</button> 
-				<button class="tablinks filter-button center"
-					    onClick="handleFilter(event, 'center')">
-					Center
-				</button> 
-				<button class="tablinks filter-button right"
-					    onClick="handleFilter(event, 'right')">
-					Right
-				</button> 
-        	</div>
-			<div class="summary-box">
-				<div id="left" class="tabcontent">
-					<p>London is the capital city of England.</p>
+				<div class="tab filter-buttons">
+					<button class="tablinks filter-button left"
+						    onClick="handleFilter(event, 'left')">
+						Left
+					</button> 
+					<button class="tablinks filter-button center"
+						    onClick="handleFilter(event, 'center')">
+						Center
+					</button> 
+					<button class="tablinks filter-button right"
+						    onClick="handleFilter(event, 'right')">
+						Right
+					</button> 
 				</div>
-				
-				<div id="center" class="tabcontent">
-					<p>Paris is the capital of France.</p>
+
+				<div class="summary-box">
+        			<div id="response"></div>
+					<!--<div>-->
+					<!--<div id="left" class="tabcontent">-->
+					<!--	<div class="summary">Summary</div>-->
+					<!--	<div class="summary-text">-->
+					<!--	Left-->
+					<!--	</div>-->
+					<!--	<div class="line"></div>-->
+					<!--	<div class="articles">Articles</div>-->
+					<!--	<div class="article-text">-->
+					<!--	</div>-->
+					<!--</div>-->
+					<!--<div id="center" class="tabcontent">-->
+					<!--	<div class="summary">Summary</div>-->
+					<!--	<div class="summary-text">-->
+					<!--	Center-->
+					<!--	</div>-->
+					<!--	<div class="line"></div>-->
+					<!--	<div class="articles">Articles</div>-->
+					<!--	<div class="article-text">-->
+					<!--	</div>-->
+					<!--</div>-->
+					<!--<div id="right" class="tabcontent">-->
+					<!--	<div class="summary">Summary</div>-->
+					<!--	<div class="summary-text">-->
+					<!--	Right-->
+					<!--	</div>-->
+					<!--	<div class="line"></div>-->
+					<!--	<div class="articles">Articles</div>-->
+					<!--	<div class="article-text">-->
+					<!--	</div>-->
+					<!--</div>-->
+					<!--</div>-->
 				</div>
-				
-				<div id="right" class="tabcontent">
-					<p>Tokyo is the capital of Japan.</p>
-				</div>
-			</div>
+			<!--<div style="width:85%">-->
+				<!--<div id="left" class="summary-box tabcontent">-->
+				<!--	<div class="summary">Summary</div>-->
+				<!--	<div class="summary-text">-->
+				<!--	Left-->
+				<!--	</div>-->
+				<!--	<div class="line"></div>-->
+				<!--	<div class="articles">Articles</div>-->
+				<!--	<div class="article-text">-->
+				<!--	</div>-->
+				<!--</div>-->
+				<!---->
+				<!--<div id="center" class="summary-box tabcontent">-->
+				<!--	<div class="summary">Summary</div>-->
+				<!--	<div class="summary-text">-->
+				<!--	Center-->
+				<!--	</div>-->
+				<!--	<div class="line"></div>-->
+				<!--	<div class="articles">Articles</div>-->
+				<!--	<div class="article-text">-->
+				<!--	</div>-->
+				<!--</div>-->
+				<!---->
+				<!--<div id="right" class="summary-box tabcontent">-->
+				<!--	<div class="summary">Summary</div>-->
+				<!--	<div class="summary-text">-->
+				<!--	Right-->
+				<!--	</div>-->
+				<!--	<div class="line"></div>-->
+				<!--	<div class="articles">Articles</div>-->
+				<!--	<div class="article-text">-->
+				<!--	</div>-->
+				<!--</div>-->
+			<!--</div>-->
+
+			<!--<div class="summary-box">-->
+			<!--	<div id="left" class="tabcontent">-->
+			<!--		<p>London is the capital city of England.</p>-->
+			<!--	</div>-->
+			<!---->
+			<!--	<div id="center" class="tabcontent">-->
+			<!--		<p>Paris is the capital of France.</p>-->
+			<!--	</div>-->
+			<!---->
+			<!--	<div id="right" class="tabcontent">-->
+			<!--		<p>Tokyo is the capital of Japan.</p>-->
+			<!--	</div>-->
+			<!--</div>-->
+
+			<!--<div class="summary-box">-->
+			<!--	<div class="summary">Summary</div>-->
+			<!--	<div class="summary-text">-->
+			<!--		<div id="left" class="tabcontent">-->
+			<!--			<p>London is the capital city of England.</p>-->
+			<!--		</div>-->
+			<!---->
+			<!--		<div id="center" class="tabcontent">-->
+			<!--			<p>Paris is the capital of France.</p>-->
+			<!--		</div>-->
+			<!---->
+			<!--		<div id="right" class="tabcontent">-->
+			<!--			<p>Tokyo is the capital of Japan.</p>-->
+			<!--		</div>-->
+			<!--	</div>-->
+			<!---->
+			<!--	<div class="line"></div>-->
+			<!--	<div class="articles">Articles</div>-->
+			<!--	<div class="article-text">-->
+			<!--	</div>-->
+			<!--</div>-->
 
         	<!--<div class="summary-box">-->
-        	<!--	<div id="response"><p>Summary</p></div>-->
         	<!--</div>-->
     	</header>
     </div>
@@ -113,6 +205,7 @@
 			// Get all elements with class="tablinks" and remove the class "active"
 			tablinks = document.getElementsByClassName("tablinks");
 			for (i = 0; i < tablinks.length; i++) {
+				console.log(tablinks[i])
 				tablinks[i].className = tablinks[i].className.replace(" active", "");
 			}
 			

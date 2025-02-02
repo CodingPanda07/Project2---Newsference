@@ -20,12 +20,12 @@ templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 newsapi = NewsApiClient(api_key='9f63f43bd5284070841dc0c5a02007e9')
-OPENAI_API_KEY = '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'
+OPENAI_API_KEY = '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'
 client = OpenAI(
     base_url='http://localhost:11434/v1/',
     api_key = OPENAI_API_KEY,
 )
-DEFAULT_MODEL = "gemma2:2b" # "gpt-4o-mini" 
+DEFAULT_MODEL = "yi:9b-chat-v1.5-q6_K"  # "gpt-4o-mini"
 
 class Alignment(Enum):
     Left = 0
@@ -128,6 +128,12 @@ def summarize_articles(event: str, articles: list[Any]) -> str:
     Since the contents of the articles may be long and contain many breaks, each
     content is enclosed in a pair of TWO words: "CONTENT BEGIN" and "CONTENT
     END". Keep that in mind when reading the articles.
+
+    Output your summary in HTML format. Output plain, raw HTML ONLY.
+    DO NOT add a heading element. Assume that the HTML is already inside a <body></body>.
+    Summarize in bullet points.
+    Remember to surround the bullet points with <ul></ul>, and for each bullet
+    point it should be in a <li></li>.
 
     Here are the articles:
     '''
@@ -232,18 +238,34 @@ async def process_event(event: str):
     yield ("event: " + event + "\n")
     yield f"data: <p>Generating summaries</p>" + "\n\n"
 
+    final_html = '''
+    '''
     for leaning in Alignment:
-        # print(leaning)
+        print(leaning)
         relevant_articles = grouped[leaning.value]
-        if len(relevant_articles) < 2:
-            # print("Not enough articles to tell")
-            pass
+        final_html += f"<div id={leaning.name.lower()} class='tabcontent'>\n"
+        if len(relevant_articles) == 0:
+            print("Not enough articles to tell")
         else:
-            # print(summarize_articles(event, relevant_articles))
-            pass
+            summary = (summarize_articles(event, relevant_articles))
+            print(summary)
+            final_html += f'''
+                <div class="summary">Summary</div>
+                <div class="summary-text">
+                    {summary}
+                </div>
+                <div class="line"></div>
+                <div class="articles">Articles</div>
+                <div class="article-text">
+                </div>
+            '''
+        final_html += f"</div>\n"
+    print(final_html)
 
     yield ("event: " + event + "\n")
-    yield f"data: <p>{articles[0]}</p>" + "\n\n"
+    for line in final_html.splitlines():
+        yield f"data: {line}" + "\n"
+    yield "\n"
 
     yield "event: close\ndata:\n\n"
 
