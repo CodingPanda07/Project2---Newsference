@@ -71,7 +71,12 @@ function App() {
         
         {activeFilter && (
           <div className="summary-box">
-            <p>Summary</p>
+            <div className="summary">Summary</div>
+            <div className="summary-text">
+            
+            </div>
+            <div className="line"></div> {}
+            <div className="articles">Articles</div>
           </div>
         )}
        
