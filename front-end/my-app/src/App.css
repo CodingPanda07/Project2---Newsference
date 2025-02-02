@@ -128,6 +128,15 @@
   top:27%;
 }
 
+.summary-box .article-text{
+  position:absolute;
+  top:37%;
+  font-size:20px;
+  max-height:440px;
+  overflow-y: auto; 
+  padding-right:10px;
+}
+
 .App-link {
   color: #61dafb;
 }

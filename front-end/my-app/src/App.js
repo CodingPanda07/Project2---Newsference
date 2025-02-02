@@ -73,10 +73,13 @@ function App() {
           <div className="summary-box">
             <div className="summary">Summary</div>
             <div className="summary-text">
-            
+              
             </div>
             <div className="line"></div> {}
             <div className="articles">Articles</div>
+            <div className="article-text">
+                
+            </div>
           </div>
         )}
        
