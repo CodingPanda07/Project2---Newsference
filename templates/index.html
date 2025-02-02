@@ -3,63 +3,94 @@
 <html>
 <head>
     <title>News Analysis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
     <script src="https://unpkg.com/htmx.org@2.0.4"></script>
     <script src="https://unpkg.com/htmx-ext-sse@2.2.2/sse.js"></script>
-    <style>
-        .progress-bar {
-            width: 100%;
-            height: 20px;
-            background-color: #f0f0f0;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .progress {
-            width: 0%;
-            height: 100%;
-            background-color: #4CAF50;
-            transition: width 0.5s ease-in-out;
-        }
-        .result-section {
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-    </style>
+    <!--<style src="/static/styles.css"></style>-->
+	<link href="static/index.css" rel="stylesheet" type="text/css"/>
+	<link href="static/styles.css" rel="stylesheet" type="text/css"/>
+	<link href="static/my.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-    <div class="container">
-        <h1>News Analysis</h1>
+	<div class="App">
+    	<header class="App-header">
 
-        <!--<input type="text" id="eventInput" placeholder="Enter event keyword">-->
-        <!--<button hx-get="/process/{eventValue}"-->
-        <!--        hx-trigger="click"-->
-        <!--        hx-swap="none"-->
-        <!--        hx-vals='js:{eventValue: document.getElementById("eventInput").value}'-->
-        <!--        hx-sse="connect">-->
-        <!--    Analyze News-->
-        <!--</button>-->
+			<div class="images-container">
+				<img src="/static/Ambulance.jpg" alt="Image 1" class="header-image" />
+				<img src="/static/Trump.avif" alt="Image 2" class="header-image" />
+			</div>
 
-        <!--<form id="analysisForm">-->
-        <!--    <input type="text" name="content" id="content" required>-->
-        <!--    <button type="button"-->
-        <!--            onclick="showAnalysis()">Analyze</button>-->
-        <!--</form>-->
+			<div class="images-container-right">
+				<img src="/static/War.webp" alt="Image 3" class="header-image" />
+				<img src="/static/Stocks.jpg" alt="Image 3" class="header-image" />
+			</div>
+        	
+			<h1>
+				📰 Newsference 📻
+			</h1>
 
-        <form hx-post="/submit" hx-target="#response" hx-swap="innerHTML">
-            <input type="text" name="text" placeholder="Enter something...">
-            <button type="submit">
-                Submit
-            </button>
-        </form>
-        
-        <div id="response"></div>
+			<h2>
+			  Welcome to Newsference, a site dedicated to analyzing and understanding our news and business cycles. Search any topic below
+			  and get detailed metrics about how it is being covered.
+			</h2>
 
-        <!--<div id="sseContainer"-->
-        <!--     hx-ext="sse" style="display: none;"-->
-        <!--     sse-close="close">-->
-        <!--</div>-->
+			<div class="search-bar-container">
+				<form hx-post="/submit" hx-target="#response" hx-swap="innerHTML">
+					<input 
+						name="text"
+				    	type="text" 
+					  	class="search-bar" 
+						placeholder="Search a Topic" 
+					/>
+				  	<button class="enter-button" type="submit">Enter</button>
+				</form>
+			</div>
+
+        	<div class="tab filter-buttons">
+				<button class="tablinks filter-button left"
+					    onClick="handleFilter(event, 'left')">
+					Left
+				</button> 
+				<button class="tablinks filter-button center"
+					    onClick="handleFilter(event, 'center')">
+					Center
+				</button> 
+				<button class="tablinks filter-button right"
+					    onClick="handleFilter(event, 'right')">
+					Right
+				</button> 
+        	</div>
+			<div class="summary-box">
+				<div id="left" class="tabcontent">
+					<p>London is the capital city of England.</p>
+				</div>
+				
+				<div id="center" class="tabcontent">
+					<p>Paris is the capital of France.</p>
+				</div>
+				
+				<div id="right" class="tabcontent">
+					<p>Tokyo is the capital of Japan.</p>
+				</div>
+			</div>
+
+        	<!--<div class="summary-box">-->
+        	<!--	<div id="response"><p>Summary</p></div>-->
+        	<!--</div>-->
+    	</header>
     </div>
+
+    <!--<div class="container">-->
+    <!--    <h1>News Analysis</h1>-->
+    <!---->
+    <!--    <form hx-post="/submit" hx-target="#response" hx-swap="innerHTML">-->
+    <!--        <input type="text" name="text" placeholder="Enter something...">-->
+    <!--        <button type="submit">-->
+    <!--            Submit-->
+    <!--        </button>-->
+    <!--    </form>-->
+    <!--</div>-->
 
     <script>
         document.body.addEventListener('htmx:sseBeforeMessage', function (e) {
@@ -72,18 +103,23 @@
             //htmx.process(sseContainer);
         });
 
-        function showAnalysis() {
-            const content = document.getElementById('content').value;
-            const sseContainer = document.getElementById('sseContainer');
-
-            // Show the container and set the SSE connection URL
-            sseContainer.style.display = 'block';
-            sseContainer.setAttribute('sse-swap', content);
-            sseContainer.setAttribute('sse-connect', `/process/${content}`);
-
-            // Trigger the SSE connection
-            htmx.process(sseContainer);
-        }
+		function handleFilter(event, leaning) {
+			var i, tabcontent, tablinks;
+			tabcontent = document.getElementsByClassName("tabcontent");
+			for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			}
+			
+			// Get all elements with class="tablinks" and remove the class "active"
+			tablinks = document.getElementsByClassName("tablinks");
+			for (i = 0; i < tablinks.length; i++) {
+				tablinks[i].className = tablinks[i].className.replace(" active", "");
+			}
+			
+			// Show the current tab, and add an "active" class to the button that opened the tab
+			document.getElementById(leaning).style.display = "block";
+			event.currentTarget.className += " active";
+		}
     </script>
 </body>
 </html>

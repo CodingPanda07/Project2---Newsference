@@ -1,4 +1,13 @@
 from typing import Any, Optional
+from fastapi import FastAPI, Form, Request
+from fastapi.responses import HTMLResponse, StreamingResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+import asyncio
+from typing import List, Dict
+import json
+import aiohttp
+import time
 import requests
 from openai import OpenAI
 from newsapi import NewsApiClient
@@ -6,13 +15,17 @@ from newspaper import Article
 import time
 from enum import Enum
 
+app = FastAPI()
+templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 newsapi = NewsApiClient(api_key='9f63f43bd5284070841dc0c5a02007e9')
 OPENAI_API_KEY = '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'
 client = OpenAI(
-    # base_url='http://localhost:11434/v1/',
+    base_url='http://localhost:11434/v1/',
     api_key = OPENAI_API_KEY,
 )
-DEFAULT_MODEL = "gpt-4o-mini" # "gemma2:2b" 
+DEFAULT_MODEL = "gemma2:2b" # "gpt-4o-mini" 
 
 class Alignment(Enum):
     Left = 0
@@ -83,7 +96,7 @@ def determine_political_leaning(article: str) -> Alignment:
     If there is an error reading the content, reply with "center".
 
     The article is as follows:
-    
+
     CONTENT BEGIN
     {0}
     CONTENT END
@@ -143,7 +156,7 @@ def summarize_articles(event: str, articles: list[Any]) -> str:
     )
     return response.choices[0].message.content
 
-def main():
+async def main():
     # topic = input("Enter the article topic: ")
     # articles = fetch_articles(topic)
     
@@ -180,6 +193,7 @@ def main():
         title = article["title"]
         description = article["description"]
         content = url_to_text(article["url"])
+        article["contet"] = content
         print(title)
         leaning = (determine_political_leaning(content))
         print(leaning)
@@ -193,6 +207,69 @@ def main():
             print("Not enough articles to tell")
         else:
             print(summarize_articles(event, relevant_articles))
+
+async def process_event(event: str):
+    yield ("event: " + event + "\n")
+    yield "data: <p>fetching news articles</p>" + "\n\n"
+    # event = "elon musk salute at inauguration"
+    articles = (fetch_articles(event))[:5]
+
+    grouped = [[], [], []]
+    for i, article in enumerate(articles):
+        yield ("event: " + event + "\n")
+        yield f"data: <p>Processing article {i + 1} of {len(articles)}</p>" + "\n\n"
+
+        # print(texts)
+        title = article["title"]
+        description = article["description"]
+        content = url_to_text(article["url"])
+        # print(title)
+        leaning = (determine_political_leaning(content))
+        # print(leaning)
+        grouped[leaning.value].append(article)
+        # time.sleep(10)
+
+    yield ("event: " + event + "\n")
+    yield f"data: <p>Generating summaries</p>" + "\n\n"
+
+    for leaning in Alignment:
+        # print(leaning)
+        relevant_articles = grouped[leaning.value]
+        if len(relevant_articles) < 2:
+            # print("Not enough articles to tell")
+            pass
+        else:
+            # print(summarize_articles(event, relevant_articles))
+            pass
+
+    yield ("event: " + event + "\n")
+    yield f"data: <p>{articles[0]}</p>" + "\n\n"
+
+    yield "event: close\ndata:\n\n"
+
+@app.get("/")
+async def home(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+@app.get("/process/{event}")
+async def process(event: str):
+    return StreamingResponse(
+        process_event(event),
+        media_type="text/event-stream"
+    )
+
+@app.post("/submit", response_class=HTMLResponse)
+async def submit(text: str = Form(...)):
+    event = text.strip()
+    return f'''
+        <div id="sseContainer"
+             hx-ext="sse"
+             sse-swap="{event}"
+             sse-connect="/process/{event}"
+             sse-close="close">
+            <p>Hello</p>
+        </div>
+    '''
 
 
 if __name__ == "__main__":
