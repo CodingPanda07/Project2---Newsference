@@ -4,8 +4,16 @@ import image1 from './assets/Ambulance.jpg';
 import image2 from './assets/Trump.avif';
 import image3 from './assets/War.webp';
 import image4 from './assets/Stocks.jpg';
+import { useState } from "react";
 
 function App() {
+  const [showFilters, setShowFilters] = useState(false);
+
+  const handleSearch = () => {
+    setShowFilters(true); 
+  };
+
+
   return (
     <div className="App">
       <header className="App-header">
@@ -35,10 +43,16 @@ function App() {
             className="search-bar" 
             placeholder="Search a Topic" 
           />
-            <button className="enter-button">Enter</button> {}
+            <button className="enter-button" onClick={handleSearch}>Enter</button> {}
         </div>
 
-       
+        {showFilters && (
+          <div className="filter-buttons">
+            <button className="filter-button left">Left</button>
+            <button className="filter-button center">Center</button>
+            <button className="filter-button right">Right</button>
+          </div>
+        )}
         
        
       </header>

@@ -67,6 +67,15 @@
   padding: 6px;
 }
 
+.filter-buttons{
+  margin-top:25px;
+}
+
+.filter-button{
+  height: 30px;
+  width:100px;
+}
+
 .App-link {
   color: #61dafb;
 }
