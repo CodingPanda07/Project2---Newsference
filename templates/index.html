@@ -30,7 +30,7 @@
 <body>
     <div class="container">
         <h1>News Analysis</h1>
-        
+
         <!--<input type="text" id="eventInput" placeholder="Enter event keyword">-->
         <!--<button hx-get="/process/{eventValue}"-->
         <!--        hx-trigger="click"-->
@@ -39,15 +39,26 @@
         <!--        hx-sse="connect">-->
         <!--    Analyze News-->
         <!--</button>-->
-        <form id="analysisForm">
-            <input type="text" name="content" id="content" required>
-            <button type="button" onclick="showAnalysis()">Analyze</button>
-        </form>
 
-        <div id="sseContainer"
-             hx-ext="sse" style="display: none;"
-             sse-close="close">
-        </div>
+        <!--<form id="analysisForm">-->
+        <!--    <input type="text" name="content" id="content" required>-->
+        <!--    <button type="button"-->
+        <!--            onclick="showAnalysis()">Analyze</button>-->
+        <!--</form>-->
+
+        <form hx-post="/submit" hx-target="#response" hx-swap="innerHTML">
+            <input type="text" name="text" placeholder="Enter something...">
+            <button type="submit">
+                Submit
+            </button>
+        </form>
+        
+        <div id="response"></div>
+
+        <!--<div id="sseContainer"-->
+        <!--     hx-ext="sse" style="display: none;"-->
+        <!--     sse-close="close">-->
+        <!--</div>-->
     </div>
 
     <script>
@@ -55,15 +66,21 @@
             console.log(e)
         })
 
+        document.addEventListener('htmx:afterRequest', function(evt) {
+            // Put the JS code that you want to execute here
+            const sseContainer = document.getElementById('sseContainer');
+            //htmx.process(sseContainer);
+        });
+
         function showAnalysis() {
             const content = document.getElementById('content').value;
             const sseContainer = document.getElementById('sseContainer');
-            
+
             // Show the container and set the SSE connection URL
             sseContainer.style.display = 'block';
             sseContainer.setAttribute('sse-swap', content);
             sseContainer.setAttribute('sse-connect', `/process/${content}`);
-            
+
             // Trigger the SSE connection
             htmx.process(sseContainer);
         }

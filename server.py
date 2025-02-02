@@ -1,5 +1,5 @@
-from fastapi import FastAPI, Request
-from fastapi.responses import StreamingResponse
+from fastapi import FastAPI, Form, Request
+from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import asyncio
@@ -98,3 +98,18 @@ async def process(event: str):
         process_event(event),
         media_type="text/event-stream"
     )
+
+@app.post("/submit", response_class=HTMLResponse)
+async def submit(text: str = Form(...)):
+    event = text.strip()
+    return f'''
+        <div id="sseContainer"
+             hx-ext="sse"
+             sse-swap="{event}"
+             sse-connect="/process/{event}"
+             sse-close="close">
+            <p>Hello</p>
+        </div>
+    '''
+
+
