@@ -248,7 +248,7 @@ async def process_event(event: str):
             print("Not enough articles to tell")
         else:
             summary = (summarize_articles(event, relevant_articles))
-            print(summary)
+            # print(summary)
             final_html += f'''
                 <div class="summary">Summary</div>
                 <div class="summary-text">
@@ -256,7 +256,19 @@ async def process_event(event: str):
                 </div>
                 <div class="line"></div>
                 <div class="articles">Articles</div>
+            '''
+            final_html += f'''
                 <div class="article-text">
+                <ul>
+            '''
+            for article in relevant_articles:
+                final_html += f'''
+                    <li>
+                    "{article["title"]}" by {article["author"]}
+                    </li>
+                '''
+            final_html += f'''
+                </ul>
                 </div>
             '''
         final_html += f"</div>\n"
