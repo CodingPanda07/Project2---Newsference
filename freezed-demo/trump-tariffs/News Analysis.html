@@ -1,0 +1,398 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>News Analysis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#000000">
+    <script src="News%20Analysis_files/htmx.min.js"></script>
+    <script src="News%20Analysis_files/sse.js"></script>
+    <!--<style src="/static/styles.css"></style>-->
+	<link href="News%20Analysis_files/index.css" rel="stylesheet" type="text/css">
+	<link href="News%20Analysis_files/styles.css" rel="stylesheet" type="text/css">
+	<link href="News%20Analysis_files/my.css" rel="stylesheet" type="text/css">
+<style>      .htmx-indicator{opacity:0}      .htmx-request .htmx-indicator{opacity:1; transition: opacity 200ms ease-in;}      .htmx-request.htmx-indicator{opacity:1; transition: opacity 200ms ease-in;}      </style></head>
+<body>
+	<div class="App">
+    	<header class="App-header">
+
+			<div class="images-container">
+				<img src="News%20Analysis_files/Ambulance.jpg" alt="Image 1" class="header-image">
+				<img src="News%20Analysis_files/Trump.avif" alt="Image 2" class="header-image">
+			</div>
+
+			<div class="images-container-right">
+				<img src="News%20Analysis_files/War.webp" alt="Image 3" class="header-image">
+				<img src="News%20Analysis_files/Stocks.jpg" alt="Image 3" class="header-image">
+			</div>
+        	
+			<h1>
+				📰 Newsference 📻
+			</h1>
+
+			<h2>
+			  Welcome to Newsference, a site dedicated to analyzing and 
+understanding our news and business cycles. Search any topic below
+			  and get detailed metrics about how it is being covered.
+			</h2>
+
+			<div class="search-bar-container">
+				<form hx-post="/submit" hx-target="#response" hx-swap="innerHTML" class="">
+					<input name="text" type="text" class="search-bar" placeholder="Search a Topic" value="trump tariffs">
+				  	<button class="enter-button" type="submit">Enter</button>
+				</form>
+			</div>
+
+				<div class="tab filter-buttons">
+					<button class="tablinks filter-button left active" onclick="handleFilter(event, 'left')">
+						Left
+					</button> 
+					<button class="tablinks filter-button center" onclick="handleFilter(event, 'center')">
+						Center
+					</button> 
+					<button class="tablinks filter-button right" onclick="handleFilter(event, 'right')">
+						Right
+					</button> 
+				</div>
+
+				<div class="summary-box">
+        			<div id="response" class="">
+        <div id="sseContainer" hx-ext="sse" sse-swap="trump tariffs" sse-connect="/process/trump tariffs" sse-close="close" class="">
+    <div id="left" class="tabcontent" style="display: block;">
+
+                <div class="summary">Summary</div>
+                <div class="summary-text">
+                    <ul>
+<li>Trump expressed serious interest in purchasing Greenland from 
+Denmark, alarming Danish officials who described the situation as 
+"potentially very dangerous."</li>
+<li>Denmark, a NATO ally of the U.S., is worried about potential 
+economic retaliation such as tariffs if they refuse to sell Greenland, 
+as the U.S. is Denmark's largest export market.</li>
+<li>Greenland's autonomous government has firmly rejected the idea of 
+becoming part of the U.S., but Trump seems focused on exploiting the 
+island's natural resources rather than considering the wishes of 
+Greenland's population.</li>
+</ul>
+                </div>
+                <div class="line"></div>
+                <div class="articles">Articles</div>
+            
+                <div class="article-text">
+                <ul>
+            
+                    <li>
+                    "Danish Government Horrified to Learn Trump Is Serious About Wanting Greenland" by AJ Dellinger
+                    </li>
+                
+                </ul>
+                </div>
+            </div>
+<div id="center" class="tabcontent" style="display: none;">
+
+                <div class="summary">Summary</div>
+                <div class="summary-text">
+                    <ul>
+<li>Under Trump's presidency, there will likely be major policy shifts 
+on trade, immigration, and energy. He has threatened significant tariffs
+ on imports, especially from China, a hawkish stance on immigration 
+including mass deportations, and a reversal of green energy policies.</li>
+
+<li>Trump appears poised to take a confrontational approach towards US 
+allies, criticizing them for taking advantage of the US on issues like 
+trade deficits and defense spending commitments. He has singled out 
+traditional allies like Canada, Mexico, Denmark, and Germany.</li>
+
+<li>Trump's return has sparked concerns in Europe about potential 
+economic disruptions from tariffs and US commitment to alliances like 
+NATO. However, some European leaders may cultivate closer ties with 
+Trump due to alignment on issues like restricting migration.</li>
+</ul>
+                </div>
+                <div class="line"></div>
+                <div class="articles">Articles</div>
+            
+                <div class="article-text">
+                <ul>
+            
+                    <li>
+                    "Trump Signs Executive Order Saving TikTok for 75 Days" by Makena Kelly
+                    </li>
+                
+                    <li>
+                    "Trump says he’ll put tariffs on imported chips ‘in the near future’" by Richard Lawler
+                    </li>
+                
+                    <li>
+                    "Trump’s war on electric cars has only just begun" by Andrew J. Hawkins
+                    </li>
+                
+                    <li>
+                    "Volvo announces pricing for delayed EX30 compact SUV" by Andrew J. Hawkins
+                    </li>
+                
+                    <li>
+                    "Can Elon Musk really save TikTok?" by Lauren Feiner
+                    </li>
+                
+                    <li>
+                    "Trump Returns Big Tech’s Ass Kissing at Davos" by Lucas Ropek
+                    </li>
+                
+                    <li>
+                    "Trump's tariffs hit China hard before - this time, it's ready" by None
+                    </li>
+                
+                    <li>
+                    "Canada can avoid tariffs by becoming a US state, says Trump" by None
+                    </li>
+                
+                    <li>
+                    "Trump wants to take Greenland: Four ways this saga could go" by None
+                    </li>
+                
+                    <li>
+                    "Confident, organised, still freewheeling: Trump 2.0 shows lessons have been learned" by None
+                    </li>
+                
+                    <li>
+                    "Has Trump promised too much on US economy?" by None
+                    </li>
+                
+                    <li>
+                    "Can opposites Trump and Starmer find common ground?" by None
+                    </li>
+                
+                    <li>
+                    "Trump tells Putin to end 'ridiculous war' in Ukraine or face new sanctions" by None
+                    </li>
+                
+                    <li>
+                    "Hidden tunnel on US-Mexico border to be sealed" by None
+                    </li>
+                
+                    <li>
+                    "Best of 'frenemies': Trump's relationship with Europe this time may be very different" by None
+                    </li>
+                
+                    <li>
+                    "Canadian PM Trudeau may quit within days, media reports suggest" by None
+                    </li>
+                
+                    <li>
+                    "Inflation has gone up for the third straight month,
+ but switching bank accounts could help protect your funds" by 
+kpulliam@businessinsider.com (Kit Pulliam)
+                    </li>
+                
+                    <li>
+                    "Apple CEO Tim Cook Will Attend Trump Inauguration" by Juli Clover
+                    </li>
+                
+                    <li>
+                    "Key moments from Trump's inaugural address" by Domenico Montanaro
+                    </li>
+                
+                </ul>
+                </div>
+            </div>
+<div id="right" class="tabcontent" style="display: none;">
+
+                <div class="summary">Summary</div>
+                <div class="summary-text">
+                    <ul>
+<li>Donald Trump imposed 25% tariffs on imports from Canada, Mexico, and
+ China as part of his economic vision to grow the US economy, protect 
+jobs, and raise tax revenue. The Canadian Prime Minister candidate Mark 
+Carney stated that Canada would retaliate "dollar for dollar" against 
+the US tariffs, describing it as standing up to "a bully."</li>
+
+<li>Trump repeatedly expressed his desire for the US to acquire 
+Greenland and the Panama Canal, citing national security reasons. He 
+threatened to use economic and potentially military force to gain 
+control over these territories, straining relations with Denmark and 
+Panama. Trump also suggested merging Canada into the US, though Canadian
+ leaders firmly rejected the idea.</li>
+
+<li>On his first day in office, Trump signed a flurry of executive 
+orders aimed at cracking down on immigration. He declared a national 
+emergency at the US-Mexico border, sought to end birthright citizenship 
+for children of undocumented migrants, and revoked legal pathways for 
+asylum seekers like the CBP One app, sparking legal challenges from 
+advocacy groups.</li>
+</ul>
+                </div>
+                <div class="line"></div>
+                <div class="articles">Articles</div>
+            
+                <div class="article-text">
+                <ul>
+            
+                    <li>
+                    "Canada 'will stand up to a bully', says Canada PM contender over Trump tariffs" by None
+                    </li>
+                
+                    <li>
+                    "Trump threatens "very high" tariffs on Denmark over Greenland" by None
+                    </li>
+                
+                    <li>
+                    "Trump to declare national emergency at US-Mexico border in flurry of day one orders" by None
+                    </li>
+                
+                </ul>
+                </div>
+            </div></div>
+    </div>
+					<!--<div>-->
+					<!--<div id="left" class="tabcontent">-->
+					<!--	<div class="summary">Summary</div>-->
+					<!--	<div class="summary-text">-->
+					<!--	Left-->
+					<!--	</div>-->
+					<!--	<div class="line"></div>-->
+					<!--	<div class="articles">Articles</div>-->
+					<!--	<div class="article-text">-->
+					<!--	</div>-->
+					<!--</div>-->
+					<!--<div id="center" class="tabcontent">-->
+					<!--	<div class="summary">Summary</div>-->
+					<!--	<div class="summary-text">-->
+					<!--	Center-->
+					<!--	</div>-->
+					<!--	<div class="line"></div>-->
+					<!--	<div class="articles">Articles</div>-->
+					<!--	<div class="article-text">-->
+					<!--	</div>-->
+					<!--</div>-->
+					<!--<div id="right" class="tabcontent">-->
+					<!--	<div class="summary">Summary</div>-->
+					<!--	<div class="summary-text">-->
+					<!--	Right-->
+					<!--	</div>-->
+					<!--	<div class="line"></div>-->
+					<!--	<div class="articles">Articles</div>-->
+					<!--	<div class="article-text">-->
+					<!--	</div>-->
+					<!--</div>-->
+					<!--</div>-->
+				</div>
+			<!--<div style="width:85%">-->
+				<!--<div id="left" class="summary-box tabcontent">-->
+				<!--	<div class="summary">Summary</div>-->
+				<!--	<div class="summary-text">-->
+				<!--	Left-->
+				<!--	</div>-->
+				<!--	<div class="line"></div>-->
+				<!--	<div class="articles">Articles</div>-->
+				<!--	<div class="article-text">-->
+				<!--	</div>-->
+				<!--</div>-->
+				<!---->
+				<!--<div id="center" class="summary-box tabcontent">-->
+				<!--	<div class="summary">Summary</div>-->
+				<!--	<div class="summary-text">-->
+				<!--	Center-->
+				<!--	</div>-->
+				<!--	<div class="line"></div>-->
+				<!--	<div class="articles">Articles</div>-->
+				<!--	<div class="article-text">-->
+				<!--	</div>-->
+				<!--</div>-->
+				<!---->
+				<!--<div id="right" class="summary-box tabcontent">-->
+				<!--	<div class="summary">Summary</div>-->
+				<!--	<div class="summary-text">-->
+				<!--	Right-->
+				<!--	</div>-->
+				<!--	<div class="line"></div>-->
+				<!--	<div class="articles">Articles</div>-->
+				<!--	<div class="article-text">-->
+				<!--	</div>-->
+				<!--</div>-->
+			<!--</div>-->
+
+			<!--<div class="summary-box">-->
+			<!--	<div id="left" class="tabcontent">-->
+			<!--		<p>London is the capital city of England.</p>-->
+			<!--	</div>-->
+			<!---->
+			<!--	<div id="center" class="tabcontent">-->
+			<!--		<p>Paris is the capital of France.</p>-->
+			<!--	</div>-->
+			<!---->
+			<!--	<div id="right" class="tabcontent">-->
+			<!--		<p>Tokyo is the capital of Japan.</p>-->
+			<!--	</div>-->
+			<!--</div>-->
+
+			<!--<div class="summary-box">-->
+			<!--	<div class="summary">Summary</div>-->
+			<!--	<div class="summary-text">-->
+			<!--		<div id="left" class="tabcontent">-->
+			<!--			<p>London is the capital city of England.</p>-->
+			<!--		</div>-->
+			<!---->
+			<!--		<div id="center" class="tabcontent">-->
+			<!--			<p>Paris is the capital of France.</p>-->
+			<!--		</div>-->
+			<!---->
+			<!--		<div id="right" class="tabcontent">-->
+			<!--			<p>Tokyo is the capital of Japan.</p>-->
+			<!--		</div>-->
+			<!--	</div>-->
+			<!---->
+			<!--	<div class="line"></div>-->
+			<!--	<div class="articles">Articles</div>-->
+			<!--	<div class="article-text">-->
+			<!--	</div>-->
+			<!--</div>-->
+
+        	<!--<div class="summary-box">-->
+        	<!--</div>-->
+    	</header>
+    </div>
+
+    <!--<div class="container">-->
+    <!--    <h1>News Analysis</h1>-->
+    <!---->
+    <!--    <form hx-post="/submit" hx-target="#response" hx-swap="innerHTML">-->
+    <!--        <input type="text" name="text" placeholder="Enter something...">-->
+    <!--        <button type="submit">-->
+    <!--            Submit-->
+    <!--        </button>-->
+    <!--    </form>-->
+    <!--</div>-->
+
+    <script>
+        document.body.addEventListener('htmx:sseBeforeMessage', function (e) {
+            console.log(e)
+        })
+
+        document.addEventListener('htmx:afterRequest', function(evt) {
+            // Put the JS code that you want to execute here
+            const sseContainer = document.getElementById('sseContainer');
+            //htmx.process(sseContainer);
+        });
+
+		function handleFilter(event, leaning) {
+			var i, tabcontent, tablinks;
+			tabcontent = document.getElementsByClassName("tabcontent");
+			for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			}
+			
+			// Get all elements with class="tablinks" and remove the class "active"
+			tablinks = document.getElementsByClassName("tablinks");
+			for (i = 0; i < tablinks.length; i++) {
+				console.log(tablinks[i])
+				tablinks[i].className = tablinks[i].className.replace(" active", "");
+			}
+			
+			// Show the current tab, and add an "active" class to the button that opened the tab
+			document.getElementById(leaning).style.display = "block";
+			event.currentTarget.className += " active";
+		}
+    </script>
+
+</body></html>
