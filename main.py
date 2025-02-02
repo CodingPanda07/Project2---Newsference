@@ -9,6 +9,7 @@ import json
 import aiohttp
 import time
 import requests
+import os
 from openai import OpenAI
 from newsapi import NewsApiClient
 from newspaper import Article
@@ -26,14 +27,18 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 newsapi = NewsApiClient(api_key='9f63f43bd5284070841dc0c5a02007e9')
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+OPENAI_BASE_URL = os.getenv("OPENAI_BASE_URL")
 client = OpenAI(
-    # base_url='http://localhost:11434/v1/',
+    base_url = OPENAI_BASE_URL,
     api_key = OPENAI_API_KEY,
 )
-DEFAULT_MODEL = "anthropic.claude-3-sonnet-20240229-v1:0" # "orca2:7b" # "gpt-4o-mini" # "yi:9b-chat-v1.5-q6_K" 
+DEFAULT_MODEL = os.getenv("DEFAULT_MODEL") # "orca2:7b" # "gpt-4o-mini" # "yi:9b-chat-v1.5-q6_K" 
+
+print((OPENAI_API_KEY, OPENAI_BASE_URL, DEFAULT_MODEL))
 
 @retry(wait=wait_random_exponential(min=1, max=120), stop=stop_after_attempt(10))
 def completion_with_backoff(**kwargs):
+    print("attempt")
     return client.chat.completions.create(**kwargs)
 
 class Alignment(Enum):
