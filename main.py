@@ -7,13 +7,17 @@ import time
 from enum import Enum
 
 newsapi = NewsApiClient(api_key='9f63f43bd5284070841dc0c5a02007e9')
-openai_api_key = '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'
-client = OpenAI(api_key = openai_api_key)
+OPENAI_API_KEY = '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'
+client = OpenAI(
+    # base_url='http://localhost:11434/v1/',
+    api_key = OPENAI_API_KEY,
+)
+DEFAULT_MODEL = "gpt-4o-mini" # "gemma2:2b" 
 
 class Alignment(Enum):
     Left = 0
-    Right = 2
     Center = 1
+    Right = 2
 
     @classmethod
     def from_string(cls, value: str) -> Optional['Alignment']:
@@ -65,26 +69,79 @@ def determine_political_leaning(article: str) -> Alignment:
     API call to ChatGPT, give political rating
     '''
     prompt = '''
-    Read this article and determine whether it is politically left, right, or center-leaning.
-    Only respond with one-word: left, right, or center. Do not explain the reasoning. The article is as follows:
+    Read this news article and determine whether it is politically left, right, or center-leaning.
+    If you are unsure, just reply "center".
+    Respond with EXACTLY one word: left, right, or center. Do not explain the reasoning.
+    VERY IMPORTANT: respond with EXACTLY one word: "left", "right", or "center".
+    The article may not be properly formatted, causing no useful information to
+    be extracted. In that case, reply with "center".
+
+    Since the contents of the article may be long and contain many breaks, the
+    content is enclosed in a pair of TWO words: "CONTENT BEGIN" and "CONTENT
+    END". Keep that in mind when reading the article.
+
+    If there is an error reading the content, reply with "center".
+
+    The article is as follows:
+    
+    CONTENT BEGIN
+    {0}
+    CONTENT END
     '''
 
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model=DEFAULT_MODEL,
         store=False,
         messages=[
             {
                 "role": "user",
-                "content": prompt + article,
+                "content": prompt.format(article),
             }
         ],
     )
-    return Alignment.from_string(response.choices[0].message.content)
+    print(response.choices[0])
+    return Alignment.from_string(response.choices[0].message.content.strip()) or Alignment.Center
 
-def summarize_articles(urls):
-    # Hypothetical API call to GeminiAPI for summarization
-    response = requests.post('https://geminiapi.com/summarize', json={'urls': urls, 'apiKey': GEMINI_API_KEY})
-    return response.json().get('summary')
+def summarize_articles(event: str, articles: list[Any]) -> str:
+    prompt = f'''
+    Summarize to me, in one to three key points, on what happend in the event "{event}".
+
+    You're allowed to use existing knowledge, plus the information provided in
+    the following articles. You do NOT need to maintain netural or bias-less.
+    Your job is to accurately report what the information that the articles provided
+    tell about the event asked, even though the articles themselves might be
+    biased towards one side or the other.
+
+    Since the contents of the articles may be long and contain many breaks, each
+    content is enclosed in a pair of TWO words: "CONTENT BEGIN" and "CONTENT
+    END". Keep that in mind when reading the articles.
+
+    Here are the articles:
+    '''
+
+    for i, article in enumerate(articles):
+        prompt += f'''
+
+        Article {i + 1}:
+        Title: {article["title"]}
+        Description: {article["description"]}
+        Content:
+        CONTENT BEGINS
+        {article["content"]}
+        CONTENT ENDS
+        '''
+
+    response = client.chat.completions.create(
+        model = DEFAULT_MODEL,
+        store = False,
+        messages = [
+            {
+                "role": "user",
+                "content": prompt,
+            }
+        ],
+    )
+    return response.choices[0].message.content
 
 def main():
     # topic = input("Enter the article topic: ")
@@ -115,20 +172,27 @@ def main():
     # print("\nRight Articles Summary:")
     # print(right_summary)
 
-    articles = fetch_articles("elon musk salute at inauguration")[:5]
+    event = "elon musk salute at inauguration"
+    articles = fetch_articles(event)[:50]
     grouped = [[], [], []]
     for article in articles:
         # print(texts)
+        title = article["title"]
         description = article["description"]
         content = url_to_text(article["url"])
-        print(description)
-        # print(content)
+        print(title)
         leaning = (determine_political_leaning(content))
         print(leaning)
-        grouped[leaning.value].append(description)
-        time.sleep(10)
+        grouped[leaning.value].append(article)
+        # time.sleep(10)
 
-    print(grouped)
+    for leaning in Alignment:
+        print(leaning)
+        relevant_articles = grouped[leaning.value]
+        if len(relevant_articles) < 2:
+            print("Not enough articles to tell")
+        else:
+            print(summarize_articles(event, relevant_articles))
 
 
 if __name__ == "__main__":
